@@ -1,3 +1,5 @@
+Using script from the following page:  http://www.engadget.com/2016/01/31/comcast-customer-complaint-bot/
+
 * Install python
 apt-get install python-pip
 
