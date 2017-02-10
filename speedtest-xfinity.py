@@ -63,6 +63,7 @@ def test():
                         pass
         GRAPHITE_URL=""
         GRAPHITE_PORT="2003"
+        a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.ping "+ str(eval(d)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
         a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.download "+ str(eval(d)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
         a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.upload "+ str(eval(u)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
         return
