@@ -5,6 +5,7 @@ import configparser
 import datetime
 import time
 import twitter
+from com.kkartikeya.home.internet.speed_pb2.py import Speed
 
 CONFIG_FILE_PATH='/opt/configuration/config.properties'
 
@@ -21,11 +22,10 @@ def getAMQPURL():
 
 	return config.get('Messaging', 'CLOUDAMQP_URL')
 
-def checkXfinitySpeed():
+def speedTest():
     a = os.popen("python /usr/local/bin/speedtest-cli --simple --server 5479").read()
     lines = a.split('\n')
     ts = time.time()
-    date =datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
     #if speedtest could not connect set the speeds to 0
     if "Cannot" in a:
@@ -37,7 +37,7 @@ def checkXfinitySpeed():
         p = lines[0][6:11]
         d = lines[1][10:14]
         u = lines[2][8:12]
-    print date,p, d, u
+    print ts*1000,p, d, u
 
     #connect to twitter
     TOKEN, TOKEN_KEY, CON_SEC, CON_SEC_KEY = getTwitterKeys()
@@ -63,12 +63,25 @@ def checkXfinitySpeed():
         except Exception,e:
             print str(e)
             pass
+
+''' Disabling push to Graphite, we will create a protobuf and publish the message to AMQP queue.
     GRAPHITE_URL=""
     GRAPHITE_PORT="2003"
-    a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.ping "+ str(eval(d)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
+    a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.ping "+ str(eval(p)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
     a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.download "+ str(eval(d)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
     a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.upload "+ str(eval(u)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
-    return
+'''
+    return ts*1000, p, d, u
+
+def getSpeedTestData():
+    timestamp, ping, download, upload = speedTest()
+    speed = Speed()
+    speed.timestamp = timestamp
+    speed.ping = ping
+    speed.download = download
+    speed.upload = upload
+
+    return speed.SerializeToString()
 
 def publishToAMQP(queue, exchange, routing_key, message):
     AMQPURL=getAMQPURL()
@@ -82,7 +95,11 @@ def publishToAMQP(queue, exchange, routing_key, message):
     connection.close()
 
 def main():
-    checkXfinitySpeed()
+    speed = getSpeedTestData()
+    queue = 'internet'
+    exchange = 'internet'
+    routing_key = 'current'
+    publishToAMQP(queue, exchange, routing_key, speed)
 
 if __name__ == '__main__':
     main()
