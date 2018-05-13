@@ -1,11 +1,12 @@
 #!/usr/bin/python
+
 import os
 import sys
 import configparser
 import datetime
 import time
 import twitter
-from com.kkartikeya.home.internet.speed_pb2.py import Speed
+from com.kkartikeya.home.internet.speed_pb2 import Speed
 
 CONFIG_FILE_PATH='/opt/configuration/config.properties'
 
