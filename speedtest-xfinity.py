@@ -6,6 +6,7 @@ import configparser
 import datetime
 import time
 import twitter
+import pika
 from com.kkartikeya.home.internet.speed_pb2 import Speed
 
 CONFIG_FILE_PATH='/opt/configuration/config.properties'
@@ -38,7 +39,7 @@ def speedTest():
         p = lines[0][6:11]
         d = lines[1][10:14]
         u = lines[2][8:12]
-    print(ts*1000,p, d, u)
+    #print(ts*1000,p, d, u)
 
     #connect to twitter
     TOKEN, TOKEN_KEY, CON_SEC, CON_SEC_KEY = getTwitterKeys()
@@ -56,7 +57,6 @@ def speedTest():
 
     # tweet if down speed is less than whatever I set
     elif eval(d)<50:
-        print('trying to tweet')
         try:
             # i know there must be a better way than to do (str(int(eval())))
             tweet="Hey @Comcast why is my internet speed " + str(int(eval(d))) + "down\\" + str(int(eval(u))) + "up when I pay for 75down\\5up in San Jose, CA? @ComcastCares @xfinity #comcast #speedtest"
