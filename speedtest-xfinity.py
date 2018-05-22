@@ -24,7 +24,7 @@ def getAMQPURL():
     return config.get('Messaging', 'CLOUDAMQP_URL')
 
 def speedTest():
-    a = os.popen("python /usr/local/bin/speedtest-cli --simple --server 5479").read()
+    a = os.popen("python3 /usr/local/bin/speedtest-cli --simple").read()
     lines = a.split('\n')
     ts = time.time()
 
