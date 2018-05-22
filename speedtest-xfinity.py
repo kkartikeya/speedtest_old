@@ -77,7 +77,7 @@ def speedTest():
 def getSpeedTestData():
     timestamp, ping, download, upload = speedTest()
     speed = Speed()
-    speed.timestamp = timestamp
+    speed.timestamp = int(timestamp)
     speed.ping = ping
     speed.download = download
     speed.upload = upload
