@@ -18,10 +18,10 @@ def getTwitterKeys():
     return twitterTokens.get('KK_HOME_TOKEN'), twitterTokens.get('KK_HOME_TOKEN_KEY'), twitterTokens.get('KK_HOME_CON_SEC'), twitterTokens.get('KK_HOME_CON_SEC_KEY')
 
 def getAMQPURL():
-	config=configparser.RawConfigParser()
-	config.read(CONFIG_FILE_PATH)
+    config=configparser.RawConfigParser()
+    config.read(CONFIG_FILE_PATH)
 
-	return config.get('Messaging', 'CLOUDAMQP_URL')
+    return config.get('Messaging', 'CLOUDAMQP_URL')
 
 def speedTest():
     a = os.popen("python /usr/local/bin/speedtest-cli --simple --server 5479").read()
