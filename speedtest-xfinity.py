@@ -78,9 +78,9 @@ def getSpeedTestData():
     timestamp, ping, download, upload = speedTest()
     speed = Speed()
     speed.timestamp = int(timestamp)
-    speed.ping = ping
-    speed.download = download
-    speed.upload = upload
+    speed.ping = float(ping)
+    speed.download = float(download)
+    speed.upload = float(upload)
 
     return speed.SerializeToString()
 
