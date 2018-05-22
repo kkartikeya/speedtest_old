@@ -61,7 +61,7 @@ def speedTest():
             # i know there must be a better way than to do (str(int(eval())))
             tweet="Hey @Comcast why is my internet speed " + str(int(eval(d))) + "down\\" + str(int(eval(u))) + "up when I pay for 75down\\5up in San Jose, CA? @ComcastCares @xfinity #comcast #speedtest"
             twit.statuses.update(status=tweet)
-        except Exception,e:
+        except Exception as e:
             print(str(e))
             pass
 
