@@ -65,13 +65,13 @@ def speedTest():
             print(str(e))
             pass
 
-''' Disabling push to Graphite, we will create a protobuf and publish the message to AMQP queue.
+    ''' Disabling push to Graphite, we will create a protobuf and publish the message to AMQP queue.
     GRAPHITE_URL=""
     GRAPHITE_PORT="2003"
     a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.ping "+ str(eval(p)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
     a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.download "+ str(eval(d)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
     a = os.popen("/bin/echo \"com.XXXXXX.home.internet.speed.upload "+ str(eval(u)) + " `date +%s`\" | /bin/nc " + GRAPHITE_URL + " " + GRAPHITE_PORT)
-'''
+    '''
     return ts*1000, p, d, u
 
 def getSpeedTestData():
