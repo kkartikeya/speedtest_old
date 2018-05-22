@@ -15,7 +15,7 @@ def getTwitterKeys():
     config.read(CONFIG_FILE_PATH)
 
     twitterTokens = config.items('Twitter')
-    return twitterTokens.get('KK_HOME_TOKEN'), twitterTokens.get('KK_HOME_TOKEN_KEY'), twitterTokens.get('KK_HOME_CON_SEC'), twitterTokens.get('KK_HOME_CON_SEC_KEY')
+    return config.get('Twitter', 'KK_HOME_TOKEN'), config.get('Twitter', 'KK_HOME_TOKEN_KEY'), config.get('Twitter', 'KK_HOME_CON_SEC'), config.get('Twitter', 'KK_HOME_CON_SEC_KEY')
 
 def getAMQPURL():
     config=configparser.RawConfigParser()
